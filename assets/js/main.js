@@ -1,4 +1,6 @@
 let ulTarefas = document.querySelector('#aFazer')
+let formulario = document.querySelector('form')
+let input = document.querySelector('input')
 
 const listarTarefas = (elementoHtml) => {
     fetch('http://localhost:8000/api/listar-tarefas')
@@ -24,15 +26,22 @@ const listarTarefas = (elementoHtml) => {
         })
 }
 
-// listarTarefas(ulTarefas)
+listarTarefas(ulTarefas)
 
-// adicionarTarefa = (tarefa) => {
-//     let dados = new FormData()
-//     dados.append('conteudo', tarefa)
-        
-// ​
-//     fetch('http://localhost:8000/api/adicionar-tarefa', {
-//         method: 'post',
-//         body: dados
-//     }).then(resposta => resposta.json()).then(dados =console.log(dados)) 
-// }
+formulario.onsubmit = (evento) => {
+    evento.preventDefault()
+    adicionarTarefa(input.value)
+    listarTarefas(ulTarefas)
+}
+
+const adicionarTarefa = (tarefa) => {
+	let dados = new FormData()
+    dados.append('conteudo', tarefa)
+    input.value = ''
+		
+
+	fetch('http://localhost:8000/api/adicionar-tarefa', {
+		method: 'post',
+		body: dados
+	}).then(resposta => resposta.json()).then(dados =console.log(dados)) 
+}
